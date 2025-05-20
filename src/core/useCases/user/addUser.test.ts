@@ -1,6 +1,3 @@
-import { vi } from 'vitest';
-vi.mock('./repository');
-
 import { AddUserCase } from './addUser';
 import UserRepository from './repository';
 

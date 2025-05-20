@@ -12,8 +12,6 @@ describe('AddUserCase', () => {
 
     const users = getAllUsersCase.execute();
 
-    console.log('---', users);
-
-    expect(users.length).toHaveLength(1);
+    expect(users).toHaveLength(1);
   });
 });
