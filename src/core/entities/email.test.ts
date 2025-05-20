@@ -2,7 +2,7 @@ import Email from './email';
 
 describe('Email', () => {
   it('should throw an error if email is empty', () => {
-    expect(() => new Email('')).toThrow('Text is required');
+    expect(() => new Email('')).toThrow('Email is required');
   });
 
   it('should throw an error if email is invalid', () => {

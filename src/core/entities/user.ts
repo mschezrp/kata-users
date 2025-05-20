@@ -1,8 +1,8 @@
-import Password from './password';
 import Email from './email';
 import Address from './address';
+import Password from './password';
 
-interface User {
+export interface User {
   id: string;
   name: string;
   email: Email;
