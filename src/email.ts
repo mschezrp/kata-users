@@ -7,16 +7,16 @@ export default class EmailEntity implements Email {
 
   private static readonly EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-  constructor(text: string) {
-    if (!text) {
-      throw new Error('Text is required');
+  constructor(value: string) {
+    if (!value) {
+      throw new Error('Email is required');
     }
 
-    if (!EmailEntity.EMAIL_REGEX.test(text)) {
+    if (!EmailEntity.EMAIL_REGEX.test(value)) {
       throw new Error('Email is not valid');
     }
 
-    this.value = text;
+    this.value = value;
   }
 
   equal(other: Email): boolean {
