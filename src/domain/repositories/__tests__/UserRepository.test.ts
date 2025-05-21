@@ -1,5 +1,5 @@
-import User from '../core/entities/User';
-import UserRepository from './UserRepository';
+import User from '../../core/entities/User';
+import UserRepository from '../UserRepository';
 
 describe('Repository', () => {
   it('should return empty users', () => {

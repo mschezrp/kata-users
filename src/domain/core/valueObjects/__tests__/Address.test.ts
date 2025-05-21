@@ -1,4 +1,4 @@
-import Address from './Address';
+import Address from '../Address';
 
 describe('Address', () => {
   it('should return true for equal emails', () => {

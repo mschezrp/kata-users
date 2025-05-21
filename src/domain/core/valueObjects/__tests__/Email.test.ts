@@ -1,4 +1,4 @@
-import Email from './Email';
+import Email from '../Email';
 
 describe('Email', () => {
   it('should throw an error if email is empty', () => {

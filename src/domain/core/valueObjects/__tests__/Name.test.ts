@@ -1,4 +1,4 @@
-import Name from './Name';
+import Name from '../Name';
 
 describe('Name', () => {
   it('should throw an error if name is empty', () => {

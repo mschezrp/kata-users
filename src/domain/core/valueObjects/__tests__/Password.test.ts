@@ -1,4 +1,4 @@
-import Password from './Password';
+import Password from '../Password';
 
 describe('Password', () => {
   it('should throw an error if password is empty', () => {

@@ -1,4 +1,4 @@
-import Id from './Id';
+import Id from '../Id';
 
 describe('Id', () => {
   it('should return true for equal ids', () => {

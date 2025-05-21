@@ -1,5 +1,5 @@
-import User from './User';
-import Id from '../valueObjects/Id';
+import User from '../User';
+import Id from '../../valueObjects/Id';
 
 describe('User', () => {
   it('should throw an error if name is empty', () => {
