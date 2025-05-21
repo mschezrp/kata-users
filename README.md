@@ -9,3 +9,7 @@ A project to learn Clean Architecture
 ### Part 2
 
 ![App Selection](./docs/assets/part-2.png)
+
+### Part 3
+
+![App Selection](./docs/assets/part-3.png)

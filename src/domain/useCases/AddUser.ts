@@ -1,5 +1,5 @@
-import UserRepository from '../../repositories/UserRepository';
-import User from '../../core/entities/User';
+import UserRepository from '../repositories/UserRepository';
+import User from '../core/entities/User';
 
 export default class AddUser {
   repository: UserRepository;

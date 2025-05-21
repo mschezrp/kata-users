@@ -1,4 +1,4 @@
-import UserRepository from '../../repositories/UserRepository';
+import UserRepository from '../repositories/UserRepository';
 
 export default class GetAllUsers {
   repository: UserRepository;
