@@ -21,7 +21,7 @@ export default class ConsoleView implements UserViewInterface {
     console.log(`> ${message}`);
   };
 
-  show = (message: string) => {
-    console.log(message);
+  show = (message: string, title?: boolean) => {
+    console.log(`${title ? '\n' : ''}${message}`);
   };
 }

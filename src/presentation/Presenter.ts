@@ -1,83 +1,151 @@
+import { exit } from 'process';
 import User from '../domain/core/entities/User';
 import AddUser from '../domain/useCases/AddUser';
+import DeleteAllUsers from '../domain/useCases/DeleteAllUsers';
+import DeleteUser from '../domain/useCases/DeleteUser';
 import GetAllUsers from '../domain/useCases/GetAllUsers';
 
-export interface UserPresenterInterface {
-  loadName: () => Promise<string>;
-  loadEmail: () => Promise<string>;
-  loadPassword: () => Promise<string>;
-}
-
 export interface UserViewInterface {
-  prompt: (question: string) => Promise<string>;
   notify: (message: string) => void;
-  show: (message: string) => void;
+  prompt: (question: string) => Promise<string>;
+  show: (message: string, title?: boolean) => void;
 }
 
-export default class UserPresenter implements UserPresenterInterface {
+export default class UserPresenter {
   view: UserViewInterface;
-  addUser: AddUser;
-  getAllUsers: GetAllUsers;
+  addUserCase: AddUser;
+  getAllUsersCase: GetAllUsers;
+  deleteUserCase: DeleteUser;
+  deleteAllUsersCase: DeleteAllUsers;
 
   constructor(
     view: UserViewInterface,
-    addUser: AddUser,
-    getAllUsers: GetAllUsers,
+    addUserCase: AddUser,
+    getAllUsersCase: GetAllUsers,
+    deleteUserCase: DeleteUser,
+    deleteAllUsersCase: DeleteAllUsers,
   ) {
     this.view = view;
-    this.addUser = addUser;
-    this.getAllUsers = getAllUsers;
+    this.addUserCase = addUserCase;
+    this.getAllUsersCase = getAllUsersCase;
+    this.deleteUserCase = deleteUserCase;
+    this.deleteAllUsersCase = deleteAllUsersCase;
   }
 
   init = async () => {
     this.view.show('Welcome to the kata-users management system');
 
     while (true) {
-      const users = this.getAllUsers.execute();
+      this.showMenu();
+      const option = await this.view.prompt('Select an option: ');
 
-      if (users.length === 0) {
-        this.view.show('No users found');
-      } else {
-        this.view.show(`List users`);
-        users.map((user) =>
-          this.view.show(`· ${user.name.value} (${user.email.value})`),
-        );
-      }
+      switch (option) {
+        case '1': {
+          try {
+            this.view.show('Add a new user', true);
+            await this.addUser();
+            this.view.notify('User created successfully');
+          } catch (error) {
+            this.view.notify(`Something went wrong adding user: ${error}`);
+          }
 
-      try {
-        this.view.show('\nAdd a new user');
-        await this.createUser();
-        this.view.notify('User created successfully');
-      } catch (error) {
-        this.view.notify(`Something went wrong: ${error}`);
+          break;
+        }
+
+        case '2': {
+          this.view.show('List users', true);
+          const users = this.getAllUsersCase.execute();
+          this.showUsers(users);
+
+          break;
+        }
+
+        case '3': {
+          this.view.show('Delete user', true);
+          const users = this.getAllUsersCase.execute();
+          this.showUsers(users, true);
+          const index = await this.view.prompt('Select an option: ');
+
+          if (!index || isNaN(+index) || !users[+index]) {
+            this.view.notify(`Invalid index`);
+            continue;
+          }
+
+          try {
+            this.deleteUser(users[+index]);
+            this.view.notify('User deleted successfully');
+          } catch (error) {
+            this.view.notify(`Something went wrong deleting user: ${error}`);
+          }
+
+          break;
+        }
+
+        case '4': {
+          this.view.show('Delete all users', true);
+
+          try {
+            this.deleteAllUsers();
+            this.view.notify('All users deleted successfully');
+          } catch (error) {
+            this.view.notify(
+              `Something went wrong deleting all users: ${error}`,
+            );
+          }
+
+          break;
+        }
+
+        case '5':
+          this.view.show('Goodbye', true);
+          exit(0);
+
+          break;
+
+        default:
+          this.view.show('Invalid option');
+          break;
       }
 
       this.view.show('\n');
     }
   };
 
-  createUser = async () => {
-    const name = await this.loadName();
-    const email = await this.loadEmail();
-    const password = await this.loadPassword();
+  addUser = async () => {
+    const email = await this.view.prompt('Email: ');
+    const name = await this.view.prompt('Name: ');
+    const password = await this.view.prompt('Password: ');
 
     const user = new User('', name, email, password);
 
-    this.addUser.execute(user);
+    this.addUserCase.execute(user);
   };
 
-  loadEmail = async () => {
-    const email = await this.view.prompt('Email: ');
-    return email;
+  deleteUser = (user: User) => {
+    this.deleteUserCase.execute(user);
   };
 
-  loadName = async () => {
-    const name = await this.view.prompt('Name: ');
-    return name;
+  deleteAllUsers = () => {
+    this.deleteAllUsersCase.execute();
   };
 
-  loadPassword = async () => {
-    const password = await this.view.prompt('Password: ');
-    return password;
+  showMenu = () => {
+    this.view.show('1. Add user');
+    this.view.show('2. List users');
+    this.view.show('3. Delete user');
+    this.view.show('4. Delete all');
+    this.view.show('5. Exit');
+  };
+
+  showUsers = (users: User[], ordered?: boolean) => {
+    if (users.length === 0) {
+      this.view.notify('No users found');
+    } else {
+      users.map((user, index) =>
+        this.view.show(
+          `${ordered ? `${index}.` : '·'} ${user.name.value} (${user.email.value})`,
+        ),
+      );
+    }
   };
 }

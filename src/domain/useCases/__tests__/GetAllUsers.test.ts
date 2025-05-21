@@ -9,6 +9,8 @@ describe('GetAllUsers', () => {
     const getAllUsers = new GetAllUsers({
       users: [user1],
       addUser: vi.fn(),
+      deleteAllUsers: vi.fn(),
+      deleteUserByEmail: vi.fn(),
       getAllUsers: vi.fn().mockImplementation(function (this: UserRepository) {
         return this.users;
       }),

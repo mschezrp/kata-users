@@ -10,6 +10,18 @@ export default class UserRepository {
     this.users.push(user);
   };
 
+  deleteAllUsers = () => {
+    this.users = [];
+  };
+
+  deleteUserByEmail = (email: Email) => {
+    const userIndex = this.users.findIndex((user) => user.email.equal(email));
+
+    if (userIndex !== -1) {
+      this.users.splice(userIndex, 1);
+    }
+  };
+
   getAllUsers = () => this.users;
 
   getUserByEmail = (email: Email) => {

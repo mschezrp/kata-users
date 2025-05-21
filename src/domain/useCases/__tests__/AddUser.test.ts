@@ -10,6 +10,8 @@ describe('AddUser', () => {
 
       const addUser = new AddUser({
         users: [user1],
+        deleteAllUsers: vi.fn(),
+        deleteUserByEmail: vi.fn(),
         addUser: vi.fn().mockImplementation(function (
           this: UserRepository,
           user: User,
