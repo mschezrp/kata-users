@@ -17,6 +17,10 @@ export default class ConsoleView implements UserViewInterface {
     });
   };
 
+  notify = (message: string) => {
+    console.log(`> ${message}`);
+  };
+
   show = (message: string) => {
     console.log(message);
   };

@@ -10,6 +10,7 @@ export interface UserPresenterInterface {
 
 export interface UserViewInterface {
   prompt: (question: string) => Promise<string>;
+  notify: (message: string) => void;
   show: (message: string) => void;
 }
 
@@ -29,7 +30,7 @@ export default class UserPresenter implements UserPresenterInterface {
   }
 
   init = async () => {
-    this.view.show('Welcome to the Kata User Management System');
+    this.view.show('Welcome to the kata-users management system');
 
     while (true) {
       const users = this.getAllUsers.execute();
@@ -37,15 +38,18 @@ export default class UserPresenter implements UserPresenterInterface {
       if (users.length === 0) {
         this.view.show('No users found');
       } else {
-        this.view.show(
-          `List users: \n ${users.map((user) => `${user.name.value} (${user.email.value})`).join('\n')}\n`,
+        this.view.show(`List users`);
+        users.map((user) =>
+          this.view.show(`· ${user.name.value} (${user.email.value})`),
         );
       }
 
       try {
+        this.view.show('\nAdd a new user');
         await this.createUser();
+        this.view.notify('User created successfully');
       } catch (error) {
-        this.view.show(`Something went wrong: ${error}`);
+        this.view.notify(`Something went wrong: ${error}`);
       }
 
       this.view.show('\n');
@@ -60,8 +64,6 @@ export default class UserPresenter implements UserPresenterInterface {
     const user = new User('', name, email, password);
 
     this.addUser.execute(user);
-
-    this.view.show('User created successfully');
   };
 
   loadEmail = async () => {
