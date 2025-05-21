@@ -11,17 +11,23 @@ export default class User {
   password: Password;
   address?: Address | undefined;
 
-  constructor(id: string, name: string, email: string, password: string) {
+  constructor(
+    id: string,
+    name: string,
+    email: string,
+    password: string,
+    street?: string,
+    zipCode?: string,
+    city?: string,
+  ) {
     this.id = new Id(id);
     this.name = new Name(name);
     this.email = new Email(email);
     this.password = new Password(password);
-    this.address = undefined;
-  }
 
-  setAddress(street: string, zipCode: string, city: string): void {
-    const address = new Address(street, zipCode, city);
-    this.address = address;
+    if (street && zipCode && city) {
+      this.address = new Address(street, zipCode, city);
+    }
   }
 
   equal(other: User): boolean {
