@@ -1,6 +1,6 @@
-import UserRepository from './repository';
+import UserRepository from '../../../repositories/UserRepository';
 
-export class GetAllUsersCase {
+export default class GetAllUsers {
   repository: UserRepository;
 
   constructor(repository: UserRepository) {

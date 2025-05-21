@@ -1,10 +1,4 @@
-interface Address {
-  street: string;
-  zipCode: string;
-  city: string;
-}
-
-export default class AddressEntity implements Address {
+export default class Address {
   street: string;
   zipCode: string;
   city: string;

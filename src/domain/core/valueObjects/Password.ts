@@ -1,8 +1,4 @@
-interface Password {
-  value: string;
-}
-
-export default class PasswordEntity implements Password {
+export default class Password {
   value: string;
 
   private static readonly PASSWORD_REGEX =
@@ -10,10 +6,10 @@ export default class PasswordEntity implements Password {
 
   constructor(value: string) {
     if (!value) {
-      throw new Error('Text is required');
+      throw new Error('Password is required');
     }
 
-    if (!PasswordEntity.PASSWORD_REGEX.test(value)) {
+    if (!Password.PASSWORD_REGEX.test(value)) {
       throw new Error(
         'Password must have at least 8 characters and contain at least one uppercase letter, one lowercase letter, and one number',
       );

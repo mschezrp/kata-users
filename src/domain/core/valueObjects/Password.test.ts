@@ -1,8 +1,8 @@
-import Password from './password';
+import Password from './Password';
 
 describe('Password', () => {
   it('should throw an error if password is empty', () => {
-    expect(() => new Password('')).toThrow('Text is required');
+    expect(() => new Password('')).toThrow('Password is required');
   });
 
   it('should throw an error if password does not meet criteria', () => {
